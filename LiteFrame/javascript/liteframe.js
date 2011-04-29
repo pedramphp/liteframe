@@ -169,7 +169,6 @@ if (!window.$_LITE_) {
 		  	delete config.api;
 		  	delete config.method;
 		  	delete config.data;
-		  	console.log( $.extend({},base, config) );
 		  	$.ajax($.extend({},base, config));
 		};
 	
