@@ -1,4 +1,4 @@
-<!--{assign var = 'action'       		  value=$_LITE_.ACTION}-->
+<!--{assign var = 'action'       		      value=$_LITE_.ACTION}-->
 <!--{assign var = 'includeTemplate'       value=$_LITE_.VARS.fileSystemPaths.templateIncludePath}-->
 <!--{assign var = 'actionTemplate'        value=$_LITE_.VARS.fileSystemPaths.templateActionPath}-->
 <!--{assign var = 'layoutTemplate'        value=$_LITE_.VARS.fileSystemPaths.templateActionPath}-->
@@ -19,6 +19,8 @@
 <!--{assign var = 'styleLibraryPath'      value=$_LITE_.VARS.styleLibraryPath}-->
 <!--{assign var = 'applicationPath'       value=$_LITE_.VARS.applicationPath}-->
 <!--{assign var = 'requestVariable'       value=$_LITE_.REQUEST}--> 
+<!--{assign var = 'activeAction'          value=$_LITE_.VARS.actionTrigger}--> 
+
 <!--{include file=$settingsTemplate|cat:"htmlTag.tpl.html"}-->
     <head>
       <title></title>
@@ -34,8 +36,8 @@
     </head>
     <body>    
         <div id='container'>
-		
-		</div><!--/ #container  -->    	
+					 <!--{include file = $activeAction}-->
+			  </div><!--/ #container  -->    	
 		<!--{if $javascriptBottomPage eq true}-->
 		<!--{include file = $settingsTemplate|cat:"JavaScriptActionInfo.tpl.html"}-->
 		<!--{/if}-->

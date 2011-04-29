@@ -12,16 +12,9 @@
 
 if (!this.console) { var console = {log:function(){}}; }
 
-
-Function.prototype.method = function(name, fn) {
-  this.prototype[name] = fn;
-  return this;
-}; 
-
 if (!window.$_LITE_) {
     window.$_LITE_ = window.$_LITE_ || {};
 }
-
 
 (function($L){
 	
@@ -29,7 +22,7 @@ if (!window.$_LITE_) {
 	$L.initialize = function(){
 		
 		$L.SetVariables();
-		$L.Application.init();  
+		$L.Application.init(); 
 	};
 	
 	/*---------------------------*
@@ -80,30 +73,6 @@ if (!window.$_LITE_) {
 	 * ***************************
 	 *---------------------------*/
 
-			 
-			 
-	/*******************************************************************
-	Function: IsObjEmpty
-	Inputs: Any type of javascript object
-	Output: return true if the obj has anything in it, otherwise false.
-	********************************************************************/   
-	$L.IsObjEmpty = function(obj){
-	       
-	    for(var i in obj){ return false;}
-	    return true;
-	   
-	 };  
-	 
-	 $L.noop = function(){};
-	
-	 $L.getArguments = function( args){
-		 
-		 if(typeof args[0] == 'object' ){ args = args[0];  }
-		 return args;
-		 
-	 };
-	
-
 	
 	/*****************************************************************************
 	*                        Application Object                                  *
@@ -115,12 +84,12 @@ if (!window.$_LITE_) {
 	    $L.Application.init  =  function(){ this.Path = $L.applicationPath;  };
 	    $L.Application.GetApplicationURL = function(action, parameters){
 	                
-	                var valuePairs = [];
-	                if (action) { valuePairs.push('action='+action); }
-	                for (var property in parameters) { valuePairs.push(property + '=' + parameters[property]);  }
-	                var getString = '';
-	                if (valuePairs.length) { getString = '?' + valuePairs.join('&'); }
-	                return this.Path  + this.File + getString;
+            var valuePairs = [];
+            if (action) { valuePairs.push('action='+action); }
+            for (var property in parameters) { valuePairs.push(property + '=' + parameters[property]);  }
+            var getString = '';
+            if (valuePairs.length) { getString = '?' + valuePairs.join('&'); }
+            return this.Path  + this.File + getString;
 	                
 	    };    
 	
@@ -153,33 +122,6 @@ if (!window.$_LITE_) {
 	    $L.ajax.run     = function(ajaxVars){ $.ajax( ajaxVars ); }
 	    $L.ajax.loading = function(){  }              
 	    
-	/*****************************************************************************
-	*                        Ajax Object Ends                                    *
-	
-	*****************************************************************************/
-	
-	// Function that formats a number like US currency (no $ sign)
-	// addCommas = true will add thousands separator
-	$L.formatCurrency = function(value, addCommas){
-		
-	        var currency = parseFloat(value);
-	        if (!currency) { return '0.00'; }
-	
-	        var currencyStr = currency.toFixed(2).toString();
-	        if (!addCommas) { return currencyStr; }
-	
-	        var elements = currencyStr.split('.', 2);
-	
-	        var dollars = '';
-	        for (var i = 0; i < elements[0].length; i++)
-	        {
-	                if (i != 0 && i % 3 == 0) { dollars = ',' + dollars; }
-	                dollars = elements[0][elements[0].length - (i+1)] + dollars;
-	        }
-	
-	        return dollars + '.' + elements[1];
-	}
-	
 	/*****************************************************************************/
 	
 	    
@@ -189,59 +131,48 @@ if (!window.$_LITE_) {
 	  $L.initializeAjax = function(){   
 	        
 	        var ajax = {
-	                
-	                init : function(){
-	        			console.log("asdasd");
-	                    $.ajaxSetup(ajax.IntializeVars());
-	                }, 
-	                
-	                intializeVars : function(){
+	            init : function(){
+	                $.ajaxSetup(ajax.IntializeVars());
+	            }, 
+	            intializeVars : function(){
 	
-	                    return ({
-	                          type       : 'POST'     ,
-	                          dataType   : 'html'     ,
-	                          beforeSend : ajax.beforeSend ,
-	                          error      : ajax.error
-	                    });
-	                                
-	                },   
-	                
-	                beforeSend : function(){ },  
-	                
-	                error : function(){  console.log("Error Occured ( BY AJAX Object  )"); }
+	                return ({
+	                      type       : 'POST'     ,
+	                      dataType   : 'html'     ,
+	                      beforeSend : ajax.beforeSend ,
+	                      error      : ajax.error
+	                });
+	                            
+	            },   
+	            beforeSend : function(){ },  
+	            error : function(){  }
 	                
 	        }; // Ajax Object Ends     
 	        return ajax.init();
 	  };
+	  
+	  $L.jsonRPC =  function( config ){
+
+		  	var base = {
+		  		context: config.scope || document.body,
+			  	data:{
+					api: config.api,
+					method: config.method,
+					config: config.data
+				},
+				dataType: 'json',
+				type: 'POST',
+				context: config.scope || document.body,
+				url: $_LITE_.Application.GetApplicationURL('jsonrpc')
+		  	};
+		  	delete config.context;
+		  	delete config.api;
+		  	delete config.method;
+		  	delete config.data;
+		  	console.log( $.extend({},base, config) );
+		  	$.ajax($.extend({},base, config));
+		};
 	
-	  
-	  /************************************************************************************
-	  *                              GenerateObject                                      *
-	  ************************************************************************************/  
-	  
-	  $L.generateObject = function(){  
-			
-		    var ChainableObject = function(){ return new ChainableObject.fn.init();  };
-			ChainableObject.fn = ChainableObject.protoype = {};
-			ChainableObject.fn.init = function(){};
-			ChainableObject.fn.init.prototype = ChainableObject.fn;
-			return ChainableObject;
-	  }  
-	  
-	  
-	  /************************************************************************************
-	   *                              Yotta Tools                                         *
-	   ************************************************************************************/  	  
-	  
-	  $L.arrayMax = function( array ){ return Math.max.apply( Math, array ); };
-	  $L.arrayMin = function( array ){ return Math.min.apply( Math, array );  };
-	  
-	  $L.countWords = function(string){
-	  		
-	  	    string = string.split(" ");
-	  	    return string.length;
-	  };
-	  
 	  return ( $L.initialize() );
 
 })($_LITE_);

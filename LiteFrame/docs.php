@@ -320,5 +320,40 @@
  * 
  * 
  * 
+ * 
+ * 
+ *
+ * HOW TO CALL JSON RPC
+var i = {
+		
+}
+$_LITE_.jsonRPC({
+	scope: i, 
+	api: 'Mahdi',
+	method: 'run',
+	data: {
+		t:[1,2,3],
+		i: 12,
+		tt:{
+			l:2
+		}
+	},
+	success: function( data, textStatus, jqXH ){
+		console.log( arguments );
+	},
+	error: function(){
+		console.log( arguments );
+	},
+	beforeSend: function(){
+		console.log( arguments );
+	},
+	complete: function(){
+		console.log( arguments );
+	}
+	
+});
+
+ * 
+ * 
  */
 ?>

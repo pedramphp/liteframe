@@ -34,7 +34,11 @@ require_once(LiteFrame::GetFileSystemPath()."includes/SiteHelper.class.php");
 class Site extends SiteHelper{
 	
 	public function __construct(){
-			
+		$args = func_get_args();
+		if( count($args) === 1 && $args[0] == 'jsonrpc' ){
+			$this->jsonrpc();
+			return;
+		}	
 		try{
 			
 			$this->process( func_get_args() );
@@ -67,7 +71,7 @@ class Site extends SiteHelper{
 			
 			}		
 			
-     		$this->setObjectsForTemplate(); 
+			$this->setObjectsForTemplate(); 
 		
 	}/* </ process > */
 	
@@ -84,14 +88,21 @@ class Site extends SiteHelper{
 	
   
   private function generateObject($className, $field) {
-		
+
 		$this->siteObjects[$field] = new $className();
 		
-		self::$siteObjectsData[$field]   = $this->siteObjects[$field]->getResults();
+		self::$siteObjectsData[$field] = $this->siteObjects[$field]->getResults();
 		
 	}/* </ generateObject >  */	
 	
 	
+	private function jsonrpc(){
+			parent::__construct();
+		  $post = LiteFrame::FetchPostVariable();
+		  $api = new $post['api']();
+		  self::$siteObjectsData[$post['api'] . "_" . $post['method']] = call_user_func_array(array($api, $post['method']), $post['config']);
+		  $this->setObjectsForTemplate(); 
+	}
 	
 }  /* </Site> */
 

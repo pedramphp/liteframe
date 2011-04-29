@@ -85,4 +85,14 @@ require_once(LiteFrame::GetFileSystemPath()."includes/modules/SiteModuleLoader.c
 require_once(LiteFrame::GetFileSystemPath()."includes/modules/ExceptionLoader.class.php");
 
 
+
+/**
+ * 
+ *	Site Module Loader : 
+ *	Auto Loader ( Loads exception modules that have not been loaded when they are called )
+ *  
+ */
+require_once(LiteFrame::GetFileSystemPath()."includes/jsonrpc/settings/JsonRPCLoader.class.php");
+
+
 ?>

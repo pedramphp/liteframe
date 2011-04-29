@@ -34,8 +34,8 @@ class SiteSettings {
 	
 	public function setTemplate(){
 		
-		LiteFrame::SetTemplateFolderName("default");
-		LiteFrame::SetTemplateColorName("dark");
+		//LiteFrame::SetTemplateFolderName("default");
+		//LiteFrame::SetTemplateColorName("dark");
 		self::$tools= new Tools();
 		
 	}/* </ SetTemplate > */
@@ -47,9 +47,9 @@ class SiteSettings {
 	} /* </ SetTemplateColor > */
 	
 	public function setCoreJavascript(){
-		/*
-		LiteFrame::IncludeLibraryJavascript('jquery/jquery-1.4.4.min.js');
-		LiteFrame::IncludeLibraryJavascript('plugins/jquery.gotop.js');
+		
+		LiteFrame::IncludeLibraryJavascript('jquery/jquery-1.5.2.js');
+		/*LiteFrame::IncludeLibraryJavascript('plugins/jquery.gotop.js');
 		LiteFrame::IncludeJavascript('default.js');
 		if( SiteHelper::GetAction() === 'tools' ){
 			LiteFrame::ExternalJavascript('http://connect.facebook.net/en_US/all.js#appId=133202353404448&&amp;xfbml=1');

@@ -459,7 +459,7 @@ class  LiteFrame {
               break;
               
             case "JSON" : 
-            	
+            	unset(self::$yAction['_LITE_']);
               echo json_encode(self::$yAction);
               return false;
               break;
@@ -556,8 +556,8 @@ class  LiteFrame {
         
         $this->actionTrigger = 
         $this->liteVars['actionTrigger'] = 
-        $this->actionFolder.$this->templateEngineFolder.$this->GetTemplateName().".tpl.html";
- 
+        $this->fileSystemPaths['templatePath'].$this->actionFolder.$this->templateEngineFolder.$this->GetTemplateName().".tpl.html";
+        
 	}
 
 	/**
